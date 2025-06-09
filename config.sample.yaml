@@ -1,0 +1,15 @@
+# Core
+debug: true
+app_name: Captions Generator
+version: 0.0.1
+
+# Audio Input
+# Each index corresponds to a unique input device
+input_n_devices: 1
+input_samplerate: [48000]
+input_n_channels: [2]
+input_sd_device_ids: [1]
+
+# Processing
+chunk_size_seconds: 5
+dtype: 'int16'
