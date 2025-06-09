@@ -16,10 +16,11 @@ class AppConfig(BaseModel):
     version: str = "0.0.1"
 
     # Audio Input
-    input_n_devices: int = 1
-    input_samplerate: list = [48000]
-    input_n_channels: list = [2]
-    input_sd_device_ids: list = [1]
+    input_n_devices: int = 2
+    input_samplerate: list = [48000, 48000]
+    input_n_channels: list = [2, 2]
+    input_sd_device_ids: list = [1, 1]
+    input_device_names: list = ["Room1", "Room2"]
 
     # Processing
     chunk_size_seconds: float = 5
@@ -27,7 +28,12 @@ class AppConfig(BaseModel):
 
 
     def model_post_init(self, __context) -> None:
-        if not len(self.input_samplerate) == len(self.input_n_channels) == len(self.input_sd_device_ids) == self.input_n_devices:
+        if not all([
+            len(self.input_samplerate) == self.input_n_devices,
+            len(self.input_n_channels) == self.input_n_devices,
+            len(self.input_sd_device_ids) == self.input_n_devices,
+            len(self.input_device_names) == self.input_n_devices,
+        ]):
             raise ValueError(
                 f"Mismatch between input_n_devices ({self.input_n_devices}) and list lengths: "
                 f"samplerate ({len(self.input_samplerate)}), channels ({len(self.input_n_channels)}), "
